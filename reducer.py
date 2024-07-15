@@ -1,19 +1,25 @@
 #!/usr/bin/env python
-#Exercise 5: categories that have more than 114 purchases
+#Exercise 6: calculating the average sales per category
 import sys
 
+sum_of_values = 0
 count_of_values = 0
+
 previous_key = None
+
 for line in sys.stdin:
     data = line.strip().split("\t")
     key, value = data
 
     if previous_key != None and previous_key != key:
-        if count_of_values > 114: # adding the 114 as treshold
-            sys.stdout.write("{0}\t{1}\n".format(previous_key, count_of_values))
+        average = sum_of_values / count_of_values
+        sys.stdout.write("{0}\t{1}\n".format(previous_key, average))
+        sum_of_values = 0
         count_of_values = 0
-    # Increment the count instead of summing the values
+    sum_of_values += float(value)
     count_of_values += 1
     previous_key = key
-    if previous_key != None and count_of_values > 114:
-        sys.stdout.write("{0}\t{1}\n".format(previous_key, count_of_values))
+
+if previous_key != None:
+    average = sum_of_values / count_of_values
+    sys.stdout.write("{0}\t{1}\n".format(previous_key, average))
